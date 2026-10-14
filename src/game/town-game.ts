@@ -946,7 +946,16 @@ export class TownGame {
       const progress = this.state.questProgress.fishing
       this.hooks.toast(progress >= 1 ? `${resident.name}：好收获！打开任务本看看池塘来信。` : `${resident.name}：池塘水面很平静，抛竿时记得留意浮漂。`)
     } else {
-      this.hooks.toast(`${resident.name}：${resident.greeting}`)
+      const roleLines: Partial<Record<Resident['role'], string>> = {
+        mayor: '镇长：小镇的公告板上有新的社区委托，欢迎来看看。',
+        scientist: '林博士：带来荧光菌或星砂样本，我可以帮你记录它们的变化。',
+        doctor: '苏医生：探索回来若觉得疲惫，就到诊所歇一会儿。',
+        musician: '茉莉：夜市开灯后，来听我弹一首河谷的歌吧。',
+        chef: '阿洛：收集香草和鱼获，就能做出今天的招牌晚餐。',
+        child: '芽芽：你也看到那些会发光的小花了吗？',
+        native: '阿澜：水母会随着潮汐变色，夜里沿河岸就能观察到。',
+      }
+      this.hooks.toast(roleLines[resident.role] ?? `${resident.name}：${resident.greeting}`)
     }
   }
 
@@ -1185,6 +1194,13 @@ export class TownGame {
       xiaoman: [[-7, -7], [-18, -16], [-31, -8], [-26, 10], [-14, 19], [-4, 10]],
       haishu: [[7.1, -1.8], [18, 3], [28, 12], [24, 28], [10, 31], [2, 18]],
       merchant: [[4, -2.6], [13, -0.2], [22, -7], [31, -2], [28, 10], [17, 14], [8, 7]],
+      mayor: [[-3.5, -3.2], [0, -6], [6, -7], [4, -2]],
+      scientist: [[-14, -8], [-21, -12], [-26, -4], [-17, 3]],
+      doctor: [[-2, 5.5], [-8, 9], [-13, 7], [-8, 2]],
+      musician: [[9, 5], [12, 1], [4, 2], [0, 4]],
+      chef: [[-5.5, -4.5], [-9, -6], [-7, -2]],
+      child: [[2.5, 4.6], [5, 7], [1, 9], [-2, 6]],
+      native: [[-18, -13], [-24, -17], [-30, -12], [-22, -7]],
     }
     for (const resident of this.world.residents) {
       const points = (routes[resident.id] ?? [[resident.position.x, resident.position.z]])

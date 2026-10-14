@@ -468,13 +468,89 @@ function sceneAddShadow(object: THREE.Object3D): void {
   })
 }
 
+function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): void {
+  const prop = new THREE.Group()
+  const wood = mat('#79563e')
+  const metal = mat('#b8c8c3', 0.38)
+  const glow = new THREE.MeshStandardMaterial({ color: '#b9f4df', emissive: '#4ec7a4', emissiveIntensity: 0.42, roughness: 0.34 })
+  if (role === 'mayor') {
+    const cane = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.038, 1.02, 10), wood)
+    cane.position.set(0.52, 0.53, 0.06)
+    cane.rotation.z = -0.035
+    prop.add(cane)
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.023, 7, 14, Math.PI), metal)
+    handle.position.set(0.52, 1.03, 0.06)
+    handle.rotation.z = Math.PI
+    prop.add(handle)
+  } else if (role === 'scientist') {
+    const vial = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.25, 12), glow)
+    vial.position.set(0.40, 1.43, 0.13)
+    prop.add(vial)
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.082, 0.045, 12), metal)
+    cap.position.set(0.40, 1.58, 0.13)
+    prop.add(cap)
+  } else if (role === 'doctor') {
+    const tube = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.018, 7, 24, Math.PI), metal)
+    tube.position.set(0, 1.82, 0.285)
+    tube.rotation.z = Math.PI
+    prop.add(tube)
+    const chestpiece = new THREE.Mesh(new THREE.CircleGeometry(0.055, 14), metal)
+    chestpiece.position.set(0, 1.67, 0.31)
+    prop.add(chestpiece)
+  } else if (role === 'musician') {
+    const body = new THREE.Mesh(new THREE.SphereGeometry(0.23, 18, 12), mat('#bd8451'))
+    body.position.set(0.31, 1.05, 0.29)
+    body.scale.set(0.82, 1.18, 0.42)
+    prop.add(body)
+    const neck = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.64, 0.085), wood)
+    neck.position.set(0.30, 1.49, 0.29)
+    neck.rotation.z = -0.22
+    prop.add(neck)
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.12, 0.10), wood)
+    head.position.set(0.38, 1.80, 0.29)
+    prop.add(head)
+  } else if (role === 'chef') {
+    const hat = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.17, 0.12, 18), mat('#f1ede1'))
+    hat.position.set(0, 2.42, 0)
+    prop.add(hat)
+    for (const x of [-0.11, 0, 0.11]) {
+      const puff = new THREE.Mesh(new THREE.SphereGeometry(0.10, 12, 9), mat('#fffaf0'))
+      puff.position.set(x, 2.49, 0)
+      prop.add(puff)
+    }
+  } else if (role === 'child') {
+    const bag = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.43, 0.19), mat('#e1b54f'))
+    bag.position.set(0, 1.30, -0.28)
+    bag.rotation.x = -0.08
+    prop.add(bag)
+    const pocket = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.15, 0.025), mat('#f0d275'))
+    pocket.position.set(0, 1.23, -0.17)
+    prop.add(pocket)
+  } else if (role === 'native') {
+    for (const side of [-1, 1]) {
+      const mark = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), glow)
+      mark.position.set(side * 0.23, 2.20, 0.29)
+      prop.add(mark)
+    }
+  } else if (role === 'fisher') {
+    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.022, 1.45, 8), wood)
+    rod.position.set(0.52, 1.38, -0.04)
+    rod.rotation.z = -0.25
+    prop.add(rod)
+  }
+  if (role !== 'neighbor' && role !== 'quest' && role !== 'merchant') {
+    prop.traverse(node => { if (node instanceof THREE.Mesh) { node.castShadow = true; node.receiveShadow = true } })
+    parent.add(prop)
+  }
+}
+
 function addResident(scene: THREE.Scene, id: string, name: string, greeting: string, x: number, z: number, role: Resident['role'], appearance: AvatarAppearance): Resident {
   const group = new THREE.Group()
   group.position.set(x, 0, z)
   const rig = createHumanoid(appearance)
   group.add(rig.root)
   if (role === 'child') group.scale.setScalar(0.78)
-  addResidentRoleProp(rig.root, role)
+  addResidentRoleProp(group, role)
   const marker = new THREE.Group()
   const halo = new THREE.Mesh(new THREE.TorusGeometry(role === 'merchant' ? 0.38 : 0.30, 0.055, 7, 20), mat(role === 'merchant' ? '#e3b85f' : '#f3c968'))
   halo.position.y = 2.56
