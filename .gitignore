@@ -1,0 +1,16 @@
+node_modules/
+dist/
+shots/
+.codex/
+.verify/
+.manus-starter-init.json
+staging/
+/开发文档/
+.env
+.env.*
+!.env.example
+*.log
+__pycache__/
+*.py[cod]
+*.blend1
+qa-*.png

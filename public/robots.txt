@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://warmtown-fuhmwuyq.manus.game/sitemap.xml
