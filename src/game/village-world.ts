@@ -474,6 +474,30 @@ function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): vo
   const metal = mat('#b8c8c3', 0.38)
   const glow = new THREE.MeshStandardMaterial({ color: '#b9f4df', emissive: '#4ec7a4', emissiveIntensity: 0.42, roughness: 0.34 })
   if (role === 'mayor') {
+    const coat = new THREE.Mesh(new THREE.CapsuleGeometry(0.29, 0.48, 6, 16), mat('#254a3a'))
+    coat.position.set(0, 1.43, 0.015)
+    coat.scale.set(1.26, 1, 0.92)
+    prop.add(coat)
+    const waistcoat = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.57, 0.035), mat('#713b4a'))
+    waistcoat.position.set(0, 1.43, 0.29)
+    prop.add(waistcoat)
+    for (const y of [1.25, 1.43, 1.61]) {
+      const button = new THREE.Mesh(new THREE.SphereGeometry(0.025, 10, 8), mat('#d8b56a', 0.36))
+      button.position.set(0.055, y, 0.315)
+      prop.add(button)
+    }
+    const hairCap = new THREE.Mesh(new THREE.SphereGeometry(0.34, 20, 12), mat('#d6d3c9'))
+    hairCap.position.set(0, 2.49, -0.015)
+    hairCap.scale.set(1.02, 0.48, 0.92)
+    prop.add(hairCap)
+    const moustacheMat = mat('#eee9db')
+    for (const side of [-1, 1]) {
+      const moustache = new THREE.Mesh(new THREE.SphereGeometry(0.105, 14, 10), moustacheMat)
+      moustache.position.set(side * 0.082, 2.035, 0.405)
+      moustache.scale.set(1.12, 0.54, 0.38)
+      moustache.rotation.z = side * -0.12
+      prop.add(moustache)
+    }
     const cane = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.038, 1.02, 10), wood)
     cane.position.set(0.52, 0.53, 0.06)
     cane.rotation.z = -0.035
@@ -483,6 +507,13 @@ function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): vo
     handle.rotation.z = Math.PI
     prop.add(handle)
   } else if (role === 'scientist') {
+    const coat = new THREE.Mesh(new THREE.CapsuleGeometry(0.30, 0.52, 6, 16), mat('#e9eee8'))
+    coat.position.set(0, 1.43, 0.018)
+    coat.scale.set(1.20, 1, 0.91)
+    prop.add(coat)
+    const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.19, 0.50, 0.035), mat('#7bbdb0'))
+    shirt.position.set(0, 1.44, 0.30)
+    prop.add(shirt)
     const vial = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.09, 0.25, 12), glow)
     vial.position.set(0.40, 1.43, 0.13)
     prop.add(vial)
@@ -490,6 +521,10 @@ function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): vo
     cap.position.set(0.40, 1.58, 0.13)
     prop.add(cap)
   } else if (role === 'doctor') {
+    const coat = new THREE.Mesh(new THREE.CapsuleGeometry(0.30, 0.52, 6, 16), mat('#f0f0e9'))
+    coat.position.set(0, 1.43, 0.018)
+    coat.scale.set(1.20, 1, 0.91)
+    prop.add(coat)
     const tube = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.018, 7, 24, Math.PI), metal)
     tube.position.set(0, 1.82, 0.285)
     tube.rotation.z = Math.PI
@@ -510,6 +545,13 @@ function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): vo
     head.position.set(0.38, 1.80, 0.29)
     prop.add(head)
   } else if (role === 'chef') {
+    const jacket = new THREE.Mesh(new THREE.CapsuleGeometry(0.30, 0.50, 6, 16), mat('#f5f0e4'))
+    jacket.position.set(0, 1.43, 0.018)
+    jacket.scale.set(1.18, 1, 0.91)
+    prop.add(jacket)
+    const apron = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.46, 0.045), mat('#303844'))
+    apron.position.set(0, 1.31, 0.30)
+    prop.add(apron)
     const hat = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.17, 0.12, 18), mat('#f1ede1'))
     hat.position.set(0, 2.42, 0)
     prop.add(hat)
@@ -528,6 +570,10 @@ function addResidentRoleProp(parent: THREE.Object3D, role: Resident['role']): vo
     prop.add(pocket)
   } else if (role === 'native') {
     for (const side of [-1, 1]) {
+      const ear = new THREE.Mesh(new THREE.ConeGeometry(0.105, 0.36, 12), mat('#c98f6d'))
+      ear.position.set(side * 0.43, 2.27, 0)
+      ear.rotation.z = side * -Math.PI / 2.8
+      prop.add(ear)
       const mark = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), glow)
       mark.position.set(side * 0.23, 2.20, 0.29)
       prop.add(mark)
